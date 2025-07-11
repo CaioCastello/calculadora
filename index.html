@@ -1,38 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Calculadora</title>
-  <link href="style.css" rel="stylesheet">
-  <script src="script.js" defer></script>
+  <title>Confirmação de Presença - Super Abel</title>
+  <style>
+    body {
+      background: url('https://i.imgur.com/lo6qP2S.jpg') center/cover no-repeat; /* Fundo Mario */
+      font-family: 'Arial', sans-serif;
+      color: #fff;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .container {
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 15px;
+      padding: 30px 20px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+    h1 {
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 1.2em;
+      margin: 15px 0;
+    }
+    label {
+      margin: 10px;
+      font-size: 1.1em;
+      cursor: pointer;
+    }
+    button {
+      background-color: #FFD700;
+      color: #000;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 10px;
+      font-size: 1em;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #FF8C00;
+    }
+  </style>
 </head>
 <body>
-  <div class="calculator-grid">
-    <div class="output">
-      <div data-previous-operand class="previous-operand"></div>
-      <div data-current-operand class="current-operand"></div>
-    </div>
-    <button data-all-clear class="span-two">AC</button>
-    <button data-delete>DEL</button>
-    <button data-operation>÷</button>
-    <button data-number>1</button>
-    <button data-number>2</button>
-    <button data-number>3</button>
-    <button data-operation>*</button>
-    <button data-number>4</button>
-    <button data-number>5</button>
-    <button data-number>6</button>
-    <button data-operation>+</button>
-    <button data-number>7</button>
-    <button data-number>8</button>
-    <button data-number>9</button>
-    <button data-operation>-</button>
-    <button data-number>.</button>
-    <button data-number>0</button>
-    <button data-equals class="span-two">=</button>
+  <div class="container">
+    <h1 id="welcome">Confirmação de Presença</h1>
+    <p>Você confirma sua presença na festa de 1 ano do Abel?</p>
+    <form id="rsvpForm">
+      <label><input type="radio" name="confirmado" value="Sim" required> Sim</label>
+      <label><input type="radio" name="confirmado" value="Não" required> Não</label>
+      <br><br>
+      <button type="submit">Enviar Confirmação</button>
+    </form>
   </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+
+    if (!id) {
+      document.body.innerHTML = '<h2>Link inválido ou ausente.</h2>';
+    } else {
+      document.getElementById('welcome').innerText = "Olá, convidado #" + id + "!";
+      
+      document.getElementById('rsvpForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const confirmado = document.querySelector('input[name="confirmado"]:checked').value;
+
+        await fetch('https://SEU_SCRIPT_URL_AQUI', {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, confirmado })
+        });
+
+        alert('Obrigado! Sua confirmação foi enviada com sucesso.');
+        document.getElementById('rsvpForm').remove();
+      });
+    }
+  </script>
 </body>
 </html>
-
