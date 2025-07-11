@@ -4,34 +4,64 @@
   <meta charset="UTF-8">
   <title>Confirmação de Presença - Super Abel</title>
   <style>
-    body {
-      background: url('abeld11d680.png') center/cover no-repeat;
-      font-family: 'Arial', sans-serif;
-      color: #fff;
-      text-align: center;
-      padding: 40px 20px;
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
     }
+
+    body {
+      background: url('abeld11d680.png') center center / cover no-repeat fixed;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Desfoque no fundo (usando pseudo-elemento) */
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: inherit;
+      background-size: cover;
+      background-position: center;
+      filter: blur(6px) brightness(0.6);
+      z-index: -1;
+    }
+
     .container {
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.75);
       border-radius: 15px;
       padding: 30px 20px;
+      width: 90%;
       max-width: 500px;
-      margin: auto;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      box-shadow: 0 0 25px rgba(0,0,0,0.7);
+      text-align: center;
     }
+
     h1 {
-      font-size: 2em;
+      font-size: 1.8em;
       margin-bottom: 10px;
     }
+
     p {
       font-size: 1.2em;
       margin: 15px 0;
     }
+
     label {
-      margin: 10px;
+      display: block;
+      margin: 12px 0;
       font-size: 1.1em;
       cursor: pointer;
     }
+
     button {
       background-color: #FFD700;
       color: #000;
@@ -40,11 +70,26 @@
       border-radius: 10px;
       font-size: 1em;
       cursor: pointer;
-      margin-top: 20px;
       transition: 0.3s;
+      margin-top: 15px;
     }
+
     button:hover {
       background-color: #FF8C00;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.5em;
+      }
+
+      p, label {
+        font-size: 1em;
+      }
+
+      button {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -55,7 +100,6 @@
     <form id="rsvpForm">
       <label><input type="radio" name="confirmado" value="Sim" required> Sim</label>
       <label><input type="radio" name="confirmado" value="Não" required> Não</label>
-      <br><br>
       <button type="submit">Enviar Confirmação</button>
     </form>
   </div>
