@@ -5,7 +5,7 @@
   <title>Confirmação de Presença - Super Abel</title>
   <style>
     body {
-      background: url('https://i.imgur.com/lo6qP2S.jpg') center/cover no-repeat; /* Fundo Mario */
+      background: url('https://i.imgur.com/lo6qP2S.jpg') center/cover no-repeat;
       font-family: 'Arial', sans-serif;
       color: #fff;
       text-align: center;
@@ -68,12 +68,12 @@
       document.body.innerHTML = '<h2>Link inválido ou ausente.</h2>';
     } else {
       document.getElementById('welcome').innerText = "Olá, convidado #" + id + "!";
-      
+
       document.getElementById('rsvpForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const confirmado = document.querySelector('input[name="confirmado"]:checked').value;
 
-        await fetch('https://SEU_SCRIPT_URL_AQUI', {
+        await fetch('https://script.google.com/macros/s/AKfycbyfyCp9e_UX71JJAFqk5-iBoTVPQN4g_Vlcj_P8ZvbZur9gNXJgJ-5Wcl2hAt_nLUdl/exec', {
           method: 'POST',
           mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
