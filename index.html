@@ -2,82 +2,100 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Confirmação de Presença - Super Abel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RSVP - Super Abel</title>
   <style>
-    html, body {
-  background: url('abeld11d680.png') center center / cover no-repeat fixed;
-  font-family: Arial, sans-serif;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  min-height: 100vh;
-}
+    body {
+      background: url('abeld11d680.png') center center / cover no-repeat fixed;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      min-height: 100vh;
+      margin: 0;
+    }
 
-body::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  background: inherit;
-  background-size: cover;
-  background-position: center;
-  filter: blur(6px) brightness(0.6);
-  z-index: -1;
-}
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: inherit;
+      background-size: cover;
+      background-position: center;
+      filter: blur(6px) brightness(0.6);
+      z-index: -1;
+    }
 
-.container {
-  background: rgba(0, 0, 0, 0.75);
-  border-radius: 15px;
-  padding: 30px 20px;
-  width: 90%;
-  max-width: 500px;
-  box-shadow: 0 0 25px rgba(0,0,0,0.7);
-  text-align: center;
-}
+    .container {
+      background: rgba(0, 0, 0, 0.75);
+      border-radius: 15px;
+      padding: 30px 20px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 0 25px rgba(0,0,0,0.7);
+      text-align: center;
+    }
 
-/* RESPONSIVO PARA CELULAR */
-@media (max-width: 600px) {
-  body {
-    background-position: center top;
-    background-size: auto 100%;
-  }
+    button {
+      background-color: #FFD700;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 15px;
+    }
 
-  body::before {
-    background-position: center top;
-    background-size: auto 100%;
-  }
+    button:hover {
+      background-color: #e5c100;
+    }
 
-  .container {
-    padding: 40px 20px;
-  }
+    @media (max-width: 600px) {
+      body {
+        background-position: center top;
+        background-size: auto 100%;
+      }
 
-  h1 {
-    font-size: 1.6em;
-  }
+      body::before {
+        background-position: center top;
+        background-size: auto 100%;
+      }
 
-  p, label {
-    font-size: 1.1em;
-  }
+      .container {
+        padding: 40px 20px;
+      }
 
-  button {
-    padding: 14px;
-    width: 100%;
-    font-size: 1.1em;
-  }
-}
+      h1 {
+        font-size: 1.6em;
+      }
 
+      p, label {
+        font-size: 1.1em;
+      }
+
+      button {
+        padding: 14px;
+        font-size: 1.1em;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1 id="welcome">Confirmação de Presença</h1>
+    <h1 id="welcome">Carregando...</h1>
     <p>Você confirma sua presença na festa de 1 ano do Abel?</p>
     <form id="rsvpForm">
-      <label><input type="radio" name="confirmado" value="Sim" required> Sim</label>
-      <label><input type="radio" name="confirmado" value="Não" required> Não</label>
+      <label>
+        <input type="radio" name="confirmado" value="Sim" required> Sim
+      </label><br>
+      <label>
+        <input type="radio" name="confirmado" value="Não" required> Não
+      </label><br>
       <button type="submit">Enviar Confirmação</button>
     </form>
   </div>
@@ -87,23 +105,33 @@ body::before {
     const id = urlParams.get('id');
 
     if (!id) {
-      document.body.innerHTML = '<h2>Link inválido ou ausente.</h2>';
+      document.getElementById('welcome').innerText = "ID não encontrado!";
     } else {
-      document.getElementById('welcome').innerText = "Olá, convidado #" + id + "!";
-
-      document.getElementById('rsvpForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const confirmado = document.querySelector('input[name="confirmado"]:checked').value;
-
-        await fetch('https://script.google.com/macros/s/AKfycbyfyCp9e_UX71JJAFqk5-iBoTVPQN4g_Vlcj_P8ZvbZur9gNXJgJ-5Wcl2hAt_nLUdl/exec', {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id, confirmado })
+      // BUSCAR NOME PELO ID
+      fetch(`https://script.google.com/macros/s/AKfycbyfyCp9e_UX71JJAFqk5-iBoTVPQN4g_Vlcj_P8ZvbZur9gNXJgJ-5Wcl2hAt_nLUdl/exec?id=${id}`)
+        .then(response => response.text())
+        .then(nome => {
+          document.getElementById('welcome').innerText = `Olá, ${nome}!`;
         });
 
-        alert('Obrigado! Sua confirmação foi enviada com sucesso.');
-        document.getElementById('rsvpForm').remove();
+      // ENVIO DO FORMULÁRIO
+      document.getElementById('rsvpForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const confirmado = document.querySelector('input[name="confirmado"]:checked').value;
+
+        fetch('https://script.google.com/macros/s/AKfycbyfyCp9e_UX71JJAFqk5-iBoTVPQN4g_Vlcj_P8ZvbZur9gNXJgJ-5Wcl2hAt_nLUdl/exec', {
+          method: 'POST',
+          body: JSON.stringify({ id: id, confirmado: confirmado })
+        })
+        .then(response => response.text())
+        .then(result => {
+          alert("Confirmação registrada com sucesso!");
+          document.getElementById('rsvpForm').reset();
+        })
+        .catch(error => {
+          alert("Erro ao enviar confirmação.");
+        });
       });
     }
   </script>
