@@ -1,139 +1,139 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RSVP - Super Abel</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Confirmação de Presença - Abel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body {
-      background: url('abeld11d680.png') center center / cover no-repeat fixed;
-      font-family: Arial, sans-serif;
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      min-height: 100vh;
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
     }
-
-    body::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
+    body, html {
       height: 100%;
-      background: inherit;
+    }
+    body {
+      background-image: url('fundo.jpg'); /* Ou troque pelo caminho real da imagem */
       background-size: cover;
       background-position: center;
-      filter: blur(6px) brightness(0.6);
-      z-index: -1;
+      background-repeat: no-repeat;
+      position: relative;
     }
-
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(6px);
+      z-index: 0;
+    }
     .container {
-      background: rgba(0, 0, 0, 0.75);
-      border-radius: 15px;
-      padding: 30px 20px;
-      width: 90%;
+      position: relative;
+      z-index: 1;
       max-width: 500px;
-      box-shadow: 0 0 25px rgba(0,0,0,0.7);
+      margin: 50px auto;
+      background: rgba(0, 0, 0, 0.75);
+      padding: 30px;
+      border-radius: 15px;
+      color: #fff;
       text-align: center;
     }
-
+    .info {
+      margin-top: 20px;
+      font-size: 0.95em;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      border-radius: 10px;
+    }
+    .info p {
+      margin-bottom: 5px;
+    }
     button {
       background-color: #FFD700;
+      color: #000;
+      padding: 10px 20px;
       border: none;
-      padding: 12px;
       border-radius: 10px;
       font-weight: bold;
       cursor: pointer;
-      width: 100%;
       margin-top: 15px;
     }
-
-    button:hover {
-      background-color: #e5c100;
+    .hidden {
+      display: none;
     }
-
-    @media (max-width: 600px) {
-      body {
-        background-position: center top;
-        background-size: auto 100%;
-      }
-
-      body::before {
-        background-position: center top;
-        background-size: auto 100%;
-      }
-
+    @media screen and (max-width: 480px) {
       .container {
-        padding: 40px 20px;
-      }
-
-      h1 {
-        font-size: 1.6em;
-      }
-
-      p, label {
-        font-size: 1.1em;
-      }
-
-      button {
-        padding: 14px;
-        font-size: 1.1em;
+        margin: 30px 15px;
+        padding: 25px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1 id="welcome">Carregando...</h1>
+  <div class="container" id="form-container">
+    <h2 id="nome-convidado">Olá, convidado!</h2>
     <p>Você confirma sua presença na festa de 1 ano do Abel?</p>
-    <form id="rsvpForm">
-      <label>
-        <input type="radio" name="confirmado" value="Sim" required> Sim
-      </label><br>
-      <label>
-        <input type="radio" name="confirmado" value="Não" required> Não
-      </label><br>
+    <form id="rsvp-form">
+      <label><input type="radio" name="confirma" value="Sim" required /> Sim</label><br />
+      <label><input type="radio" name="confirma" value="Não" required /> Não</label><br />
       <button type="submit">Enviar Confirmação</button>
     </form>
+    <div class="info">
+      <p>📍 <strong>Local:</strong> Sussuca Casa de Festa e Eventos</p>
+      <p>🗺️ <strong>Endereço:</strong> R. Eng. Pinho de Magalhães, 34 – Vila da Penha</p>
+      <p>📅 <strong>Data/Hora:</strong> 17 de agosto, às 13h</p>
+    </div>
+  </div>
+
+  <div class="container hidden" id="confirmado-container">
+    <h2>✅ Sua resposta foi registrada com sucesso!</h2>
+    <p>Obrigado por confirmar. Estamos ansiosos para te ver! 🎉</p>
   </div>
 
   <script>
     const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('id');
+    const id = urlParams.get("id");
+    const nomeSpan = document.getElementById("nome-convidado");
 
-    if (!id) {
-      document.getElementById('welcome').innerText = "ID não encontrado!";
-    } else {
-      // BUSCAR NOME PELO ID
-      fetch(`https://script.google.com/macros/s/AKfycbyfyCp9e_UX71JJAFqk5-iBoTVPQN4g_Vlcj_P8ZvbZur9gNXJgJ-5Wcl2hAt_nLUdl/exec?id=${id}`)
-        .then(response => response.text())
+    if (id) {
+      fetch("https://script.google.com/macros/s/AKfycbyfyCp9e_UX71JJAFqk5-iBoTVPQN4g_Vlcj_P8ZvbZur9gNXJgJ-5Wcl2hAt_nLUdl/exec?id=" + id)
+        .then(res => res.text())
         .then(nome => {
-          document.getElementById('welcome').innerText = `Olá, ${nome}!`;
+          if (nome.includes("não encontrado")) {
+            nomeSpan.innerText = "Convidado não encontrado!";
+            document.getElementById("rsvp-form").classList.add("hidden");
+          } else {
+            nomeSpan.innerText = "Olá, " + nome + "!";
+          }
         });
-
-      // ENVIO DO FORMULÁRIO
-      document.getElementById('rsvpForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const confirmado = document.querySelector('input[name="confirmado"]:checked').value;
-
-        fetch('https://script.google.com/macros/s/AKfycbyfyCp9e_UX71JJAFqk5-iBoTVPQN4g_Vlcj_P8ZvbZur9gNXJgJ-5Wcl2hAt_nLUdl/exec', {
-          method: 'POST',
-          body: JSON.stringify({ id: id, confirmado: confirmado })
-        })
-        .then(response => response.text())
-        .then(result => {
-          alert("Confirmação registrada com sucesso!");
-          document.getElementById('rsvpForm').reset();
-        })
-        .catch(error => {
-          alert("Erro ao enviar confirmação.");
-        });
-      });
+    } else {
+      nomeSpan.innerText = "Convidado não identificado!";
+      document.getElementById("rsvp-form").classList.add("hidden");
     }
+
+    document.getElementById("rsvp-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const resposta = document.querySelector('input[name="confirma"]:checked').value;
+
+      fetch("https://script.google.com/macros/s/AKfycbyfyCp9e_UX71JJAFqk5-iBoTVPQN4g_Vlcj_P8ZvbZur9gNXJgJ-5Wcl2hAt_nLUdl/exec", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ id: id, confirmado: resposta })
+      })
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("form-container").classList.add("hidden");
+        document.getElementById("confirmado-container").classList.remove("hidden");
+      });
+    });
   </script>
 </body>
 </html>
